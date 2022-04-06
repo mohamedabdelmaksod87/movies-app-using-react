@@ -61,21 +61,19 @@ export default function Home() {
         />
       ) : null}
       <SearchBar setSearchTerm={setSearchTerm} />
-      <Grid searchTerm={searchTerm}>
-        {state.results.map((movie) => {
-          return (
-            <Thumb
-              key={movie.id}
-              clickable={true}
-              movieId={movie.id}
-              image={
-                movie.poster_path
-                  ? `${IMAGE_BASE_URL}${POSTER_SIZE}${movie.poster_path}`
-                  : NoImage
-              }
-            />
-          );
-        })}
+      <Grid searchTerm={searchTerm} header="Popular Movies">
+        {state.results.map((movie) => (
+          <Thumb
+            key={movie.id}
+            clickable={true}
+            movieId={movie.id}
+            image={
+              movie.poster_path
+                ? `${IMAGE_BASE_URL}${POSTER_SIZE}${movie.poster_path}`
+                : NoImage
+            }
+          />
+        ))}
       </Grid>
       {loading && <Spinner />}
       {state.page < state.total_pages && !loading && (

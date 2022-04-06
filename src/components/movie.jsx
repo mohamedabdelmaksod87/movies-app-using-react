@@ -6,6 +6,9 @@ import NoImage from "../images/no_image.jpg";
 import API from "../API";
 import { useParams } from "react-router-dom";
 import BreadCrumb from "./BreadCrumb/breadCrumb";
+import MovieInfo from "./MovieInfo/movieInfo";
+import MovieInfoBar from "./MovieInfoBar/movieInfoBar";
+import Actor from "./Actor/actor";
 
 export default function Movie() {
   const { movieId } = useParams();
@@ -23,7 +26,7 @@ export default function Movie() {
           (member) => member.job === "Director"
         );
         setState({ ...movie, actors: credits.cast, directors });
-        console.log(movie);
+        console.log(credits.cast);
         setLoading(false);
       } catch (err) {
         console.log(err);
@@ -40,6 +43,26 @@ export default function Movie() {
   return (
     <>
       <BreadCrumb movieTitle={state.original_title} />
+      <MovieInfo movieData={state} />
+      <MovieInfoBar
+        budget={state.budget}
+        revenue={state.revenue}
+        runtime={state.runtime}
+      />
+      <Grid header="Actors">
+        {state.actors.map((actor) => (
+          <Actor
+            key={actor.credit_id}
+            name={actor.name}
+            character={actor.character}
+            imageUrl={
+              actor.profile_path
+                ? `${IMAGE_BASE_URL}${POSTER_SIZE}${actor.profile_path}`
+                : NoImage
+            }
+          />
+        ))}
+      </Grid>
     </>
   );
 }
