@@ -9,6 +9,7 @@ import BreadCrumb from "./BreadCrumb/breadCrumb";
 import MovieInfo from "./MovieInfo/movieInfo";
 import MovieInfoBar from "./MovieInfoBar/movieInfoBar";
 import Actor from "./Actor/actor";
+import { isPersistedState } from "../helpers";
 
 export default function Movie() {
   const { movieId } = useParams();
@@ -26,7 +27,11 @@ export default function Movie() {
           (member) => member.job === "Director"
         );
         setState({ ...movie, actors: credits.cast, directors });
-        console.log(credits.cast);
+        console.log("from API");
+        sessionStorage.setItem(
+          movieId,
+          JSON.stringify({ ...movie, actors: credits.cast, directors })
+        );
         setLoading(false);
       } catch (err) {
         console.log(err);
@@ -34,6 +39,15 @@ export default function Movie() {
         setError(true);
       }
     };
+
+    const sessionState = isPersistedState(movieId);
+    if (sessionState) {
+      console.log("from session");
+      setState(sessionState);
+      setLoading(false);
+      return;
+    }
+
     fetchMovie();
   }, [movieId]);
 

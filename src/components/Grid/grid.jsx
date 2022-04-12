@@ -1,5 +1,6 @@
 import React from "react";
 import { Wrapper, Content } from "./grid.style";
+import PropTypes from "prop-types";
 
 export default function Grid(props) {
   const { searchTerm, children, header } = props;
@@ -11,3 +12,8 @@ export default function Grid(props) {
     </Wrapper>
   );
 }
+
+Grid.propTypes = {
+  header: PropTypes.string,
+  searchTerm: PropTypes.string,
+};

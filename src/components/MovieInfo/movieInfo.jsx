@@ -3,6 +3,7 @@ import Thumb from "../Thumb/thumb";
 import { IMAGE_BASE_URL, POSTER_SIZE } from "../../config";
 import NoImage from "../../images/no_image.jpg";
 import { Wrapper, Content, Text } from "./movieInfo.styles";
+import PropTypes from "prop-types";
 
 export default function MovieInfo(props) {
   const { movieData } = props;
@@ -38,3 +39,7 @@ export default function MovieInfo(props) {
     </Wrapper>
   );
 }
+
+MovieInfo.propTypes = {
+  movieData: PropTypes.object,
+};

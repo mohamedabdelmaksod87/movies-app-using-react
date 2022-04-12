@@ -1,5 +1,6 @@
 import React from "react";
 import { Wrapper } from "./btn.style";
+import PropTypes from "prop-types";
 
 export default function LoadMoreBtn(props) {
   const { loadMore } = props;
@@ -9,3 +10,7 @@ export default function LoadMoreBtn(props) {
     </Wrapper>
   );
 }
+
+LoadMoreBtn.propTypes = {
+  loadMore: PropTypes.func,
+};

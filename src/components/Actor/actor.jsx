@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { Wrapper, Image } from "./actor.style";
 
 export default function Actor(props) {
@@ -11,3 +12,9 @@ export default function Actor(props) {
     </Wrapper>
   );
 }
+
+Actor.propTypes = {
+  name: PropTypes.string,
+  character: PropTypes.string,
+  imageUrl: PropTypes.string,
+};

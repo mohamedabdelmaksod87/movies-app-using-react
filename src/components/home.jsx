@@ -8,6 +8,7 @@ import Thumb from "./Thumb/thumb";
 import Spinner from "./Spinner/spinner.style";
 import SearchBar from "./SearchBar/searchBar";
 import LoadMoreBtn from "./LoadMoreBtn/btn";
+import { isPersistedState } from "../helpers";
 
 export default function Home() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -17,6 +18,12 @@ export default function Home() {
 
   // initial render when component monunts and searchBar effect
   useEffect(() => {
+    if (!searchTerm) {
+      const sessionState = isPersistedState("homeState");
+      if (sessionState) {
+        return setState(sessionState);
+      }
+    }
     const getMovies = async (page, searchTerm = "") => {
       try {
         setError(false);
@@ -32,6 +39,13 @@ export default function Home() {
     };
     getMovies(1, searchTerm);
   }, [searchTerm]);
+
+  // write to session storage
+  useEffect(() => {
+    if (!isPersistedState("homeState") && state.results) {
+      sessionStorage.setItem("homeState", JSON.stringify(state));
+    }
+  }, [state]);
 
   //Load More Movies Logic
   const loadMore = async () => {
