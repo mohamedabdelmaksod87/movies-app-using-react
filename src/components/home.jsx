@@ -63,7 +63,13 @@ export default function Home() {
     setLoading(false);
   };
 
-  if (error) return <h2>Couldn't Display Movies, Please try Again</h2>;
+  if (error)
+    return (
+      <h4 className="error">
+        Failed to display movies, Please try again or check your internet
+        connection
+      </h4>
+    );
 
   return state.results ? (
     <>

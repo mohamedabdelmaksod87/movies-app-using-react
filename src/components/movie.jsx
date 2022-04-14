@@ -27,7 +27,6 @@ export default function Movie() {
           (member) => member.job === "Director"
         );
         setState({ ...movie, actors: credits.cast, directors });
-        console.log("from API");
         sessionStorage.setItem(
           movieId,
           JSON.stringify({ ...movie, actors: credits.cast, directors })
@@ -39,22 +38,26 @@ export default function Movie() {
         setError(true);
       }
     };
-
     const sessionState = isPersistedState(movieId);
     if (sessionState) {
-      console.log("from session");
       setState(sessionState);
       setLoading(false);
       return;
     }
-
     fetchMovie();
   }, [movieId]);
 
   if (loading) return <Spinner />;
-  if (error) return <div>Couldn't display movie details, Please try again</div>;
 
-  return (
+  if (error)
+    return (
+      <h4 className="error">
+        Couldn't display movie details, Please try again or check your internet
+        connection
+      </h4>
+    );
+
+  return state.actors ? (
     <>
       <BreadCrumb movieTitle={state.original_title} />
       <MovieInfo movieData={state} />
@@ -78,5 +81,5 @@ export default function Movie() {
         ))}
       </Grid>
     </>
-  );
+  ) : null;
 }
